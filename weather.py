@@ -36,9 +36,7 @@ def get_location_by_coord(latitude=None, longitude=None):
     # payload = {'json_payload': data_json, 'apikey': 'YOUR_API_KEY_HERE'}
     r = requests.get(url=send_url, params=payload)
     j = json.loads(r.text)
-    resp = jsonify(j)
-    resp.status_code = r.status_code
-    return resp
+    return j
 
 # Gets current weather conditions at desired coordinates.
 @weather.route("/currentconditions", defaults ={'location_key':None})
@@ -49,15 +47,12 @@ def get_current_conditions(location_key):
         latitude = request.args.get('lat')
         longitude = request.args.get('lon')
         location = get_location_by_coord(latitude, longitude)
-        location_json = json.loads(location.get_data().decode("utf-8"))
-        location_key = location_json['Key']
+        location_key = location['Key']
     send_url = "http://dataservice.accuweather.com/currentconditions/v1/" + str(location_key)
     payload = {'apikey':os.environ.get('WEATHER_KEY')}
     r = requests.get(url=send_url, params=payload)
     j = json.loads(r.text)
-    resp = jsonify(j)
-    resp.status_code = r.status_code
-    return resp
+    return j[0]
 
 # Gets 1 day forecast at desired coordinates.
 @weather.route("/forecasts/1day", defaults ={'location_key':None})
@@ -68,15 +63,13 @@ def get_1_day_forecast(location_key, language='en-us', details='false', metric='
         latitude = request.args.get('lat')
         longitude = request.args.get('lon')
         location = get_location_by_coord(latitude, longitude)
-        location_json = json.loads(location.get_data().decode("utf-8"))
-        location_key = location_json['Key']
+        location_key = location['Key']
     send_url = 'http://dataservice.accuweather.com/forecasts/v1/daily/1day/' + str(location_key)
     payload = {'apikey':os.environ.get('WEATHER_KEY'), 'language':language, 'details':details, 'metric':metric}
     r = requests.get(url=send_url, params=payload)
     j = json.loads(r.text)
-    resp = jsonify(j)
-    resp.status_code = r.status_code
-    return resp
+    print(j)
+    return j
 
 # Gets 5 day forecast at desired coordinates.
 @weather.route("/forecasts/5day", defaults ={'location_key':None})
@@ -87,15 +80,12 @@ def get_5_day_forecast(location_key, language='en-us', details='false', metric='
         latitude = request.args.get('lat')
         longitude = request.args.get('lon')
         location = get_location_by_coord(latitude, longitude)
-        location_json = json.loads(location.get_data().decode("utf-8"))
-        location_key = location_json['Key']
+        location_key = location['Key']
     send_url = 'http://dataservice.accuweather.com/forecasts/v1/daily/5day/' + str(location_key)
     payload = {'apikey':os.environ.get('WEATHER_KEY'), 'language':language, 'details':details, 'metric':metric}
     r = requests.get(url=send_url, params=payload)
     j = json.loads(r.text)
-    resp = jsonify(j)
-    resp.status_code = r.status_code
-    return resp
+    return j
 
 # Gets 10 day forecast at desired coordinates. Doesn't work with limited account
 @weather.route("/forecasts/10day", defaults ={'location_key':None})
@@ -106,16 +96,14 @@ def get_10_day_forecast(location_key, language='en-us', details='false', metric=
         latitude = request.args.get('lat')
         longitude = request.args.get('lon')
         location = get_location_by_coord(latitude, longitude)
-        location_json = json.loads(location.get_data().decode("utf-8"))
-        location_key = location_json['Key']
+        location_key = location['Key']
     send_url = 'http://dataservice.accuweather.com/forecasts/v1/daily/10day/' + str(location_key)
     payload = {'apikey':os.environ.get('WEATHER_KEY'), 'language':language, 'details':details, 'metric':metric}
     r = requests.get(url=send_url, params=payload)
     j = json.loads(r.text)
-    resp = jsonify(j)
-    resp.status_code = r.status_code
-    return resp
-    
+    print(j)
+    return j
+
 # Gets 10 day forecast at desired coordinates. Doesn't work with limited account
 @weather.route("/forecasts/15day", defaults ={'location_key':None})
 @weather.route("/forecasts/15day/<location_key>")
@@ -125,12 +113,9 @@ def get_15_day_forecast(location_key, language='en-us', details='false', metric=
         latitude = request.args.get('lat')
         longitude = request.args.get('lon')
         location = get_location_by_coord(latitude, longitude)
-        location_json = json.loads(location.get_data().decode("utf-8"))
-        location_key = location_json['Key']
+        location_key = location['Key']
     send_url = 'http://dataservice.accuweather.com/forecasts/v1/daily/15day/' + str(location_key)
     payload = {'apikey':os.environ.get('WEATHER_KEY'), 'language':language, 'details':details, 'metric':metric}
     r = requests.get(url=send_url, params=payload)
     j = json.loads(r.text)
-    resp = jsonify(j)
-    resp.status_code = r.status_code
-    return resp
+    return j
