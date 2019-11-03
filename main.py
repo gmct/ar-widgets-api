@@ -9,12 +9,12 @@ from agriculture import agriculture
 app = Flask(__name__)
 
 # Blueprints for API sets the API hooks into
-app.register_blueprint(weather, url_prefix='/weather')
-app.register_blueprint(agriculture, url_prefix='/agriculture')
+app.register_blueprint(weather, url_prefix='/api/weather')
+app.register_blueprint(agriculture, url_prefix='/api/agriculture')
 
 
-# Route for basic server check
-@app.route("/")
+# Route for API server check
+@app.route("/api")
 def home():
     # ip = get_IP()
     # coords = get_location_by_ip(ip['ip'])

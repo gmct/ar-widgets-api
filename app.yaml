@@ -13,3 +13,6 @@ resources:
   cpu: 1
   memory_gb: 0.5
   disk_size_gb: 0.2
+
+env_variables:
+  WEATHER_KEY: ${WEATHER_KEY}
