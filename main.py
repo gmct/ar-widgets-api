@@ -1,11 +1,15 @@
 # Entry point for API server
 
 from flask import Flask
+from dotenv import load_dotenv
 import requests
 import json
 import os
 from weather import weather
 from agriculture import agriculture
+if os.path.isfile('.env'):
+    load_dotenv('.env')
+
 app = Flask(__name__)
 
 # Blueprints for API sets the API hooks into
